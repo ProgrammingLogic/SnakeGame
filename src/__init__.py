@@ -1,1 +1,1 @@
-from SnakeGame import SnakeGame
+from .SnakeGame import SnakeGame
