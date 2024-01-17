@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='SnakeGame',
     version='0.1',
-    packages=['snakegame'],
+    packages=find_packages(exclude=['tests*']),
     url='https://github.com/yourusername/SnakeGame',
     license='MIT',
     author='Jonathyn Stiverson',
