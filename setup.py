@@ -7,9 +7,14 @@ setup(
     url='https://github.com/yourusername/SnakeGame',
     license='MIT',
     author='Jonathyn Stiverson',
-    author_email='jstiverson2002@gmail.com',
     description='A simple Snake game',
     install_requires=[
         'pygame',
     ],
+    author_email='jstiverson2002@gmail.com',
+    entry_points={
+        'console_scripts': [
+            'snakegame = src.main:main',
+        ],
+    },
 )
