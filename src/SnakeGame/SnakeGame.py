@@ -48,7 +48,7 @@ class SnakeGame:
         self.clock = pygame.time.Clock()
 
 
-    def game_loop(self):
+    def loop(self):
         # Game loop
         while self.running:
             self.update()
