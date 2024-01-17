@@ -4,7 +4,7 @@
         {
             "label": "Build and Install",
             "type": "shell",
-            "command": "${config:python.pythonPath}",
+            "command": "${command:python.interpreterPath}",
             "args": [
                 "-m",
                 "pip",
