@@ -1,6 +1,10 @@
 import pygame
 import logging
 import os
+import json
+
+from pathlib import Path
+
 
 class SnakeGame:
     """
@@ -74,7 +78,7 @@ class SnakeGame:
             FileNotFoundError: If the configuration file is not found.
         """
         configuration_file = Path(configuration_file)
-        
+                
         if configuration_file.exists():
             self.logger.info(f"Processing configuration file: {configuration_file}")
             with open(configuration_file) as file:
