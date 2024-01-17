@@ -1,5 +1,6 @@
 import pygame
 import logging
+import os
 
 class SnakeGame:
     """
@@ -18,15 +19,73 @@ class SnakeGame:
         quit(): Quits the game.
         render(): Renders the game graphics.
         update(): Updates the game state.
+        process_log_level(): Processes the log level argument.
+        setup_logging(): Sets up logging for the game.
+        process_configuration(): Processes the arguments passed to the SnakeGame object.
+        process_configuration_file(): Processes the SnakeGame configuration file.
+        process_snake_game_configuration(): Processes the SnakeGame configuration.
     """
 
     def __init__(self, *args, **kwargs):
-        self.process_arguments(*args, **kwargs)
+        """
+        Initializes the SnakeGame object.
+
+        kwargs:
+            configuration_file (str): The path to the configuration file.
+            debug (bool): Indicates whether debug mode is enabled.
+            log_level (str): The log level to be set.
+                Valid option are: debug, info, warning, error, critical
+
+        Returns:
+            None
+        """
+        self.process_snake_game_configuration(*args, **kwargs)
         self.setup_logging()
         self.setup_pygame()
         self.start()
 
-    def process_arguments(self, *args, **kwargs):
+
+    def process_snake_game_configuration(self, *args, **kwargs):
+        """
+        Process the SnakeGame configuration.
+
+        Returns:
+            None
+        """
+        # Load the configuration file prior to processing the command line arguments
+        # This allows the command line arguments to override the configuration file
+        if "configuration_file" in kwargs:
+            self.process_configuration_file(kwargs["configuration_file"])
+        elif "configuration_file" in os.environ:
+            self.process_configuration_file(os.environ["configuration_file"])
+
+        self.process_configuration(*args, **kwargs)
+
+    def process_configuration_file(self, configuration_file):
+        """
+        Process the SnakeGame configuration file.
+
+        Args:
+            configuration_file (str): The path to the configuration file.
+
+        Returns:
+            None
+
+        Raises:
+            FileNotFoundError: If the configuration file is not found.
+        """
+        configuration_file = Path(configuration_file)
+        
+        if configuration_file.exists():
+            self.logger.info(f"Processing configuration file: {configuration_file}")
+            with open(configuration_file) as file:
+                configuration = json.load(file)
+                self.process_configuration(**configuration)
+        else:
+            self.logger.error(f"Configuration file not found: {configuration_file}")
+            raise FileNotFoundError(f"Configuration file not found: {configuration_file}")
+
+    def process_configuration(self, *args, **kwargs):
         """
         Process the arguments passed to the SnakeGame object.
 
@@ -37,7 +96,6 @@ class SnakeGame:
         Returns:
             None
         """
-        # Process arguments
         if "log_level" in kwargs:
             self.process_log_level(kwargs["log_level"])
         else:
