@@ -1,3 +1,5 @@
+import pygame
+
 class SnakeGame:
     """
     SnakeGame class represents a snake game.
@@ -13,20 +15,36 @@ class SnakeGame:
         handle_input(): Handles user input.
     """
     def __init__(self):
-        print("Hello world!")
+        # Setup pygame
+        pygame.init()
+        self.screen = pygame.display.set_mode((800, 600))
+        self.clock = pygame.time.Clock()
+        self.running = True
+
+        self.start()
 
     def start(self):
         # Start the game logic here
         pass
 
+    def game_loop(self):
+        # Game loop
+        while self.running:
+            self.update()
+            self.render()
+
+            # Limit the game to 60 FPS
+            self.clock.tick(60)
+
+        pygame.quit()
+        
+
     def update(self):
-        # Update the game state here
-        pass
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+
 
     def render(self):
-        # Render the game graphics here
-        pass
-
-    def handle_input(self):
-        # Handle user input here
-        pass
+        self.screen.fill("purple")
+        pygame.display.flip()
