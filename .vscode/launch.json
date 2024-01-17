@@ -9,5 +9,14 @@
             "console": "integratedTerminal",
             "justMyCode": true
         },
+        {
+            "name": "Run Module",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/main.py",
+            "console": "integratedTerminal",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
     ]
 }
