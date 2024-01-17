@@ -1,3 +1,4 @@
+import logging
 import unittest
 from src.SnakeGame.SnakeGame import SnakeGame
 
@@ -7,12 +8,32 @@ class TestSnakeGame(unittest.TestCase):
         # Ensure that the debug argument is set to False by default
         game = SnakeGame()
         game.process_arguments()
-        self.assertTrue(game.debug == False)
+        self.assertTrue(game.log_level == logging.ERROR)
 
-        # Ensure that the debug argument is set to True when debug=True is passed as a keyword argument
-        kwargs = {"debug": True}
+        # Ensure the process arguments method can handle the log level argument
+        kwargs = {"log_level": "debug"}
         game.process_arguments(**kwargs)
-        self.assertTrue(game.debug == True)
+        self.assertTrue(game.log_level == logging.DEBUG)
+
+        kwargs = {"log_level": "info"}
+        game.process_arguments(**kwargs)
+        self.assertTrue(game.log_level == logging.INFO)
+
+        kwargs = {"log_level": "warning"}
+        game.process_arguments(**kwargs)
+        self.assertTrue(game.log_level == logging.WARNING)
+
+        kwargs = {"log_level": "error"}
+        game.process_arguments(**kwargs)
+        self.assertTrue(game.log_level == logging.ERROR)
+
+        kwargs = {"log_level": "critical"}
+        game.process_arguments(**kwargs)
+        self.assertTrue(game.log_level == logging.CRITICAL)
+
+        # Ensure the process arguments method can handle invalid log levels
+        kwargs = {"log_level": "invalid"}
+        self.assertRaises(ValueError, game.process_arguments, **kwargs)
 
     def test_start(self):
         game = SnakeGame()
