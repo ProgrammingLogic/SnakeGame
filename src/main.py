@@ -7,3 +7,4 @@ if __name__ == "__main__":
     It prints 'Hello world!' to the console.
     """
     game = SnakeGame()
+    game.loop()
