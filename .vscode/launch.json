@@ -1,14 +1,14 @@
 {
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/src/main.py",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
+        // {
+        //     "name": "Python: Current File",
+        //     "type": "python",
+        //     "request": "launch",
+        //     "program": "${workspaceFolder}/src/main.py",
+        //     "console": "integratedTerminal",
+        //     "justMyCode": true
+        // },
         {
             "name": "Run Module",
             "type": "python",
@@ -16,7 +16,8 @@
             "program": "${workspaceFolder}/src/main.py",
             "console": "integratedTerminal",
             "args": [],
-            "cwd": "${workspaceFolder}"
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build and Install"
         }
     ]
 }
