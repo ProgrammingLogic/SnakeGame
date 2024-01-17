@@ -57,17 +57,17 @@ class SnakeGame:
             ValueError: If an invalid log level is provided.
         """
         log_levels = {
-            "DEBUG": logging.DEBUG,
-            "INFO": logging.INFO,
-            "WARNING": logging.WARNING,
-            "ERROR": logging.ERROR,
-            "CRITICAL": logging.CRITICAL,
+            "debug": logging.DEBUG,
+            "info": logging.INFO,
+            "warning": logging.WARNING,
+            "error": logging.ERROR,
+            "critical": logging.CRITICAL,
         }
 
-        if log_level in log_levels.keys():
+        if log_level.lower() in log_levels.keys():
             self.log_level = log_levels[log_level]
         else:
-            raise ValueError(f"Invalid log level: {log_level}")
+            raise ValueError(f"Invalid log level: {log_level.lower()}")
 
     def setup_logging(self):
         """
@@ -78,7 +78,7 @@ class SnakeGame:
         """
         # Setup logging
         self.logger = logging.getLogger(__name__)
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(self.log_level)
 
         # Create console handler
         ch = logging.StreamHandler()
