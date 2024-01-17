@@ -44,7 +44,6 @@ class SnakeGame:
         self.setup_pygame()
         self.start()
 
-
     def process_snake_game_configuration(self, *args, **kwargs):
         """
         Process the SnakeGame configuration.
