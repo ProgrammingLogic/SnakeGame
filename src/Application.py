@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 
 
+# TODO
+# Set pygame caption
 class Application:
     # Final variables
     DEFAULT_LOG_LEVEL = logging.ERROR
