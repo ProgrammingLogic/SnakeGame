@@ -10,6 +10,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description='Play SnakeGame.')
     parser.add_argument('configuration_file', type=str, nargs='?', default='.\\res\\settings.json', help='Path of the configuration file')
     parser.add_argument('--log_level', choices=['info', 'debug', 'warning', 'error', 'critical'], help='Log level (info, debug, warning, error, critical)')
+    parser.add_argument('--resolution', type=tuple, help='Resolution of the game window (width, height)')
 
     args = parser.parse_args()
 

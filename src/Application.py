@@ -9,9 +9,13 @@ from pathlib import Path
 class Application:
     # Final variables
     DEFAULT_LOG_LEVEL = logging.ERROR
+    DEFAULT_WIDTH = 800
+    DEFAULT_HEIGHT = 600
 
     # Configuration variables
     log_level = None
+    width = None
+    height = None
 
     # Instance variables
     logger = None
@@ -30,6 +34,8 @@ class Application:
 
         Configuration variables:
             log_level (int): The log level to be set.
+            width (int): The width of the game window.
+            height (int): The height of the game window.
 
         Final variables:
             DEFAULT_LOG_LEVEL (int): The default log level to be set.
@@ -49,6 +55,7 @@ class Application:
             load_configuration_file(): Processes the Application configuration file.
 
             apply_configuration(): Apply the options passed to the Application object.
+            apply_resolution(): Applies the resolution options.
             apply_log_level(): Applies the log level option.
 
         Game methods:
@@ -129,6 +136,39 @@ class Application:
         """
         self.apply_log_level(kwargs["log_level"])
 
+        # Sometimes, resolution was parsed as kwargs["resolution"] = None, and other
+        # times resolution was not parsed at all. This prevents an error from being
+        # thrown when resolution had one of those values and not the other.
+        if "resolution" in kwargs and kwargs["resolution"] is not None:
+            self.apply_resolution(*kwargs["resolution"])
+        else:
+            self.apply_resolution(None, None)
+
+
+    def apply_resolution(self, width, height):
+            """
+            Applies the specified resolution options.
+
+                Width defaults to 800.
+                Height defaults to 600.
+
+            Args:
+                width (int): The width of the game window.
+                height (int): The height of the game window.
+
+            Returns:
+                None
+            """
+            if width is None and height is None:
+                if "resolution" in os.environ:
+                    self.apply_resolution(*os.environ["resolution"])
+                else:
+                    self.width = self.DEFAULT_WIDTH
+                    self.height = self.DEFAULT_HEIGHT
+            else:
+                self.width = width
+                self.height = height
+
 
     def apply_log_level(self, log_level):
         """
@@ -202,7 +242,7 @@ class Application:
             None
         """
         pygame.init()
-        self.screen = pygame.display.set_mode((800, 600))
+        self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
 
 
