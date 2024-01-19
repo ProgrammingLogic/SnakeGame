@@ -20,6 +20,7 @@ class Application:
             clock (pygame.time.Clock): The clock to be used for the game.
 
         Options:
+            command_line_arguments (argparse.Namespace): The command line arguments passed to the Application.
             configuration_file (str): The path to the configuration file.
             log_level (int): The log level to be set.
             log_level_name (str): The name of the log level to be set.
@@ -65,10 +66,13 @@ class Application:
     screen = None
     clock = None
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, command_line_arguments, *args, **kwargs):
         """
         Initializes the Application object.
 
+        Args:
+            command_line_arguments (argparse.Namespace): The command line arguments passed to the Application.
+            
         kwargs:
             configuration_file (str): The path to the configuration file.
             log_level (str): The log level to be set.
@@ -77,7 +81,7 @@ class Application:
         Returns:
             None
         """
-        self.setup_argparse()
+        self.command_line_arguments = command_line_arguments
         self.configure()
         self.setup_logging()
         self.setup_pygame()
@@ -190,24 +194,6 @@ class Application:
             self.width = 800
         if self.height is None:
             self.height = 600
-
-
-    def setup_argparse(self):
-        """
-        Sets up the command line argument parser.
-
-        Returns:
-            None
-        """
-        parser = ArgumentParser()
-        parser.add_argument("--log-level", dest="log_level", choices=["debug", "info", "warning", "error", "critical"], help="The log level to be set.")
-        parser.add_argument("--width", dest="width", type=int, help="The width of the game window.")
-        parser.add_argument("--height", dest="height", type=int, help="The height of the game window.")
-        parser.add_argument("--config-file", dest="configuration_file", help="The path to the configuration file.")
-        parser.add_argument("--log-dir", dest="log_directory", help="The directory to store log files.")
-        parser.add_argument("--log-file", dest="log_file", help="The name of the log file.")
-        
-        self.command_line_arguments = parser.parse_args()
 
 
     def setup_pygame(self):
