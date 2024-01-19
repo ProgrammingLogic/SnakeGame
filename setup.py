@@ -4,7 +4,7 @@ setup(
     name='SnakeGame',
     version='0.1',
     packages=find_packages(exclude=['tests*']),
-    url='https://github.com/yourusername/SnakeGame',
+    url='https://github.com/ProgrammingLogic/SnakeGame',
     license='MIT',
     author='Jonathyn Stiverson',
     description='A simple Snake game',
