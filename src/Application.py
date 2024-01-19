@@ -10,12 +10,13 @@ from pathlib import Path
 # Set pygame caption
 class Application:
     # Final variables
-    DEFAULT_LOG_LEVEL = logging.ERROR
+    DEFAULT_LOG_LEVEL = "error"
     DEFAULT_WIDTH = 800
     DEFAULT_HEIGHT = 600
 
     # Configuration variables
     log_level = None
+    log_level_name = None
     width = None
     height = None
 
@@ -36,11 +37,12 @@ class Application:
 
         Configuration variables:
             log_level (int): The log level to be set.
+            log_level_name (str): The name of the log level to be set.
             width (int): The width of the game window.
             height (int): The height of the game window.
 
         Final variables:
-            DEFAULT_LOG_LEVEL (int): The default log level to be set.
+            DEFAULT_LOG_LEVEL (str): The default log level to be set.
 
     Methods:
         General Application methods:
@@ -166,20 +168,22 @@ class Application:
         Raises:
             ValueError: If an invalid log level is provided.
         """
-        log_levels = {
-            "debug": logging.DEBUG,
-            "info": logging.INFO,
-            "warning": logging.WARNING,
-            "error": logging.ERROR,
-            "critical": logging.CRITICAL,
-        }
+        valid_log_levels = [
+            "DEBUG",
+            "INFO",
+            "WARNING",
+            "ERROR",
+            "CRITICAL",
+        ]
 
-        if isinstance(log_level, int) and log_level in log_levels.values():
-            self.log_level = log_level
-        elif isinstance(log_level, str) and log_level in log_levels.keys():
-            self.log_level = log_levels[log_level]
-        else:
+        if not isinstance(log_level, str) or log_level.upper() not in valid_log_levels:
             raise ValueError(f"Invalid log level: {log_level}")
+        
+
+        # Making the log_level_name attribute lowercase allows the log level to be more verbose, 
+        # because all uppercase letters look ugly.
+        self.log_level_name = log_level.lower()
+        self.log_level = getattr(logging, log_level.upper())
 
 
     # Setup methods
