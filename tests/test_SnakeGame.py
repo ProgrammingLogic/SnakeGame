@@ -4,36 +4,46 @@ from src.SnakeGame.SnakeGame import SnakeGame
 
 
 class TestSnakeGame(unittest.TestCase):
-    def test_process_arguments(self):
+    def test_process_configuration_file(self):
+        # Ensure the process configuration file method can handle a valid configuration file
+        kwargs = {"configuration_file": "Tests/res/test_configuration.json"}
+        game = SnakeGame(**kwargs)
+        self.assertTrue(game.log_level == logging.DEBUG)
+
+        # Ensure the process configuration file method can handle an invalid configuration file
+        kwargs = {"configuration_file": "Tests/res/invalid_configuration.json"}
+        self.assertRaises(FileNotFoundError, SnakeGame, **kwargs)
+        
+    def test_process_configuration(self):
         # Ensure that the debug argument is set to False by default
         game = SnakeGame()
-        game.process_arguments()
+        game.process_configuration()
         self.assertTrue(game.log_level == logging.ERROR)
 
         # Ensure the process arguments method can handle the log level argument
         kwargs = {"log_level": "debug"}
-        game.process_arguments(**kwargs)
+        game.process_configuration(**kwargs)
         self.assertTrue(game.log_level == logging.DEBUG)
 
         kwargs = {"log_level": "info"}
-        game.process_arguments(**kwargs)
+        game.process_configuration(**kwargs)
         self.assertTrue(game.log_level == logging.INFO)
 
         kwargs = {"log_level": "warning"}
-        game.process_arguments(**kwargs)
+        game.process_configuration(**kwargs)
         self.assertTrue(game.log_level == logging.WARNING)
 
         kwargs = {"log_level": "error"}
-        game.process_arguments(**kwargs)
+        game.process_configuration(**kwargs)
         self.assertTrue(game.log_level == logging.ERROR)
 
         kwargs = {"log_level": "critical"}
-        game.process_arguments(**kwargs)
+        game.process_configuration(**kwargs)
         self.assertTrue(game.log_level == logging.CRITICAL)
 
         # Ensure the process arguments method can handle invalid log levels
         kwargs = {"log_level": "invalid"}
-        self.assertRaises(ValueError, game.process_arguments, **kwargs)
+        self.assertRaises(ValueError, game.process_configuration, **kwargs)
 
     def test_start(self):
         game = SnakeGame()
