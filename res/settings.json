@@ -1,7 +1,7 @@
 {
     "log_level": "debug",
-    "resolution": [
-        800,
-        600
-    ]
+    "width": 800,
+    "height": 600,
+    "log_directory": "logs",
+    "log_file": "pygame.log"
 }
