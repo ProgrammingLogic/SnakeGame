@@ -66,7 +66,7 @@ class Application:
         elif "configuration_file" in os.environ:
             self.process_configuration_file(os.environ["configuration_file"])
 
-        self.process_command_line_arguments(*args, **kwargs)
+        self.process_arguments(*args, **kwargs)
 
 
     def process_configuration_file(self, configuration_file):
@@ -92,7 +92,7 @@ class Application:
             raise FileNotFoundError(f"Configuration file not found: {configuration_file}")
 
 
-    def process_command_line_arguments(self, *args, **kwargs):
+    def process_arguments(self, *args, **kwargs):
         """
         Process the arguments passed to the Application object.
 
