@@ -7,7 +7,9 @@
     - `.\.venv\scripts\activate`
 3. Install setup tools
     - `pip install setuptools`
-4. Setup from `setup.py`
+4. Update pip
+    - `python.exe -m pip install --upgrade pip`
+5. Setup from `setup.py`
     - `python setup.py install`
 
 ## Building the Project
