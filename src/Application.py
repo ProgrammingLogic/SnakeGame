@@ -136,40 +136,21 @@ class Application:
         Returns:
             None
         """
-        self.apply_log_level(kwargs["log_level"])
-
-        # Sometimes, resolution was parsed as kwargs["resolution"] = None, and other
-        # times resolution was not parsed at all. This prevents an error from being
-        # thrown when resolution had one of those values and not the other.
-        if "resolution" in kwargs and kwargs["resolution"] is not None:
-            self.apply_resolution(*kwargs["resolution"])
+        if "log_level" in kwargs and kwargs["log_level"] is not None:
+            self.apply_log_level(kwargs["log_level"])
+        elif "log_level" in os.environ:
+            self.apply_log_level(os.environ["log_level"])
         else:
-            self.apply_resolution(None, None)
+            self.apply_log_level(self.DEFAULT_LOG_LEVEL)
 
 
-    def apply_resolution(self, width, height):
-            """
-            Applies the specified resolution options.
-
-                Width defaults to 800.
-                Height defaults to 600.
-
-            Args:
-                width (int): The width of the game window.
-                height (int): The height of the game window.
-
-            Returns:
-                None
-            """
-            if width is None and height is None:
-                if "resolution" in os.environ:
-                    self.apply_resolution(*os.environ["resolution"])
-                else:
-                    self.width = self.DEFAULT_WIDTH
-                    self.height = self.DEFAULT_HEIGHT
-            else:
-                self.width = width
-                self.height = height
+        if "resolution" in kwargs and kwargs["resolution"] is not None:
+            self.width, self.height = kwargs["resolution"]
+        elif "resolution" in os.environ:
+            self.width, self.height = os.environ["resolution"]
+        else:
+            self.width = self.DEFAULT_WIDTH
+            self.height = self.DEFAULT_HEIGHT
 
 
     def apply_log_level(self, log_level):
@@ -193,12 +174,12 @@ class Application:
             "critical": logging.CRITICAL,
         }
 
-        if log_level is None:
-            self.log_level = self.DEFAULT_LOG_LEVEL
-        elif not log_level in log_levels.keys():
-            raise ValueError(f"Invalid log level: {log_level.lower()}")
+        if isinstance(log_level, int) and log_level in log_levels.values():
+            self.log_level = log_level
+        elif isinstance(log_level, str) and log_level in log_levels.keys():
+            self.log_level = log_levels[log_level]
         else:
-            self.log_level = log_levels[log_level]   
+            raise ValueError(f"Invalid log level: {log_level}")
 
 
     # Setup methods
