@@ -1,5 +1,15 @@
 # SnakeGame
 
+## Setup Environment
+1. Create virtual environment
+    - `python -m venv .\.venv`
+2. Activate virtual environment
+    - `.\.venv\scripts\activate`
+3. Install setup tools
+    - `pip install setuptools`
+4. Setup from `setup.py`
+    - `python setup.py install`
+
 ## Building the Project
 
 To build the SnakeGame project, follow these steps:
