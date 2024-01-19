@@ -130,7 +130,7 @@ class Application:
                 config = json.load(f)
                 self.log_level = getattr(logging, config.get("log_level", self.log_level_name.upper()), logging.DEBUG)
                 self.log_level_name = config.get("log_level_name", self.log_level_name.lower())
-                self.log_directory = config.get("logging_directory", self.logging_directory)
+                self.log_directory = config.get("logging_directory", self.log_directory)
                 self.log_file = config.get("log_file", self.log_file)
                 self.width = config.get("width", self.width)
                 self.height = config.get("height", self.height)
