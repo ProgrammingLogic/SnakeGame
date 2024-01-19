@@ -7,12 +7,15 @@ from pathlib import Path
 
 
 class Application:
+    DEFAULT_LOG_LEVEL = logging.ERROR
+
     """
     Application class represents a snake game.
 
     Attributes:
-        debug (bool): Indicates whether debug mode is enabled.
         running (bool): Indicates whether the game is running.
+        log_level (int): The log level to be set.
+        DEFAULT_LOG_LEVEL (int): The default log level to be set.
 
     Methods:
         __init__(): Initializes the Application object.
@@ -35,20 +38,19 @@ class Application:
 
         kwargs:
             configuration_file (str): The path to the configuration file.
-            debug (bool): Indicates whether debug mode is enabled.
             log_level (str): The log level to be set.
-                Valid option are: debug, info, warning, error, critical
+                Valid options are: debug, info, warning, error, and critical
 
         Returns:
             None
         """
-        self.process_snake_game_configuration(*args, **kwargs)
+        self.process_configuration(*args, **kwargs)
         self.setup_logging()
         self.setup_pygame()
         self.start()
 
 
-    def process_snake_game_configuration(self, *args, **kwargs):
+    def process_configuration(self, *args, **kwargs):
         """
         Process the Application configuration.
 
@@ -57,12 +59,14 @@ class Application:
         """
         # Load the configuration file prior to processing the command line arguments
         # This allows the command line arguments to override the configuration file
+        # TODO
+        # Add to setup.py to put the configuration file in the enviromental variables
         if "configuration_file" in kwargs:
             self.process_configuration_file(kwargs["configuration_file"])
         elif "configuration_file" in os.environ:
             self.process_configuration_file(os.environ["configuration_file"])
 
-        self.process_configuration(*args, **kwargs)
+        self.process_command_line_arguments(*args, **kwargs)
 
 
     def process_configuration_file(self, configuration_file):
@@ -81,16 +85,14 @@ class Application:
         configuration_file = Path(configuration_file)
                 
         if configuration_file.exists():
-            self.logger.info(f"Processing configuration file: {configuration_file}")
             with open(configuration_file) as file:
                 configuration = json.load(file)
-                self.process_configuration(**configuration)
+                self.process_arguments(**configuration)
         else:
-            self.logger.error(f"Configuration file not found: {configuration_file}")
             raise FileNotFoundError(f"Configuration file not found: {configuration_file}")
 
 
-    def process_configuration(self, *args, **kwargs):
+    def process_command_line_arguments(self, *args, **kwargs):
         """
         Process the arguments passed to the Application object.
 
@@ -101,10 +103,7 @@ class Application:
         Returns:
             None
         """
-        if "log_level" in kwargs:
-            self.process_log_level(kwargs["log_level"])
-        else:
-            self.log_level = logging.ERROR
+        self.process_log_level(kwargs["log_level"])
 
 
     def process_log_level(self, log_level):
@@ -128,10 +127,12 @@ class Application:
             "critical": logging.CRITICAL,
         }
 
-        if log_level.lower() in log_levels.keys():
-            self.log_level = log_levels[log_level]
-        else:
+        if log_level is None:
+            self.log_level = self.DEFAULT_LOG_LEVEL
+        elif not log_level in log_levels.keys():
             raise ValueError(f"Invalid log level: {log_level.lower()}")
+        else:
+            self.log_level = log_levels[log_level]   
 
 
     def setup_logging(self):
