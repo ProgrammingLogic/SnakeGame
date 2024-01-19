@@ -9,10 +9,6 @@ def setup_argparse():
 
     Returns:
         None
-
-    TODO
-    - Setup argparse to work when script is executed from Main.py and unittests.
-        - This causes all unit tests to fail lol.
     """
     parser = ArgumentParser()
     parser.add_argument("--log-level", dest="log_level", choices=["debug", "info", "warning", "error", "critical"], help="The log level to be set.")

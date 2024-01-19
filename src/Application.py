@@ -4,7 +4,7 @@ import os
 import json
 
 from pathlib import Path
-from argparse import ArgumentParser
+from argparse import Namespace
  
 # TODO
 # Set pygame caption
@@ -71,7 +71,7 @@ class Application:
         Initializes the Application object.
 
         Args:
-            command_line_arguments (argparse.Namespace): The command line arguments passed to the Application.
+            command_line_arguments (argparse.Namespace or dict): The command line arguments passed to the Application.
             
         kwargs:
             configuration_file (str): The path to the configuration file.
@@ -81,6 +81,9 @@ class Application:
         Returns:
             None
         """
+        if isinstance(command_line_arguments, Namespace):
+            command_line_arguments = vars(command_line_arguments)
+            
         self.command_line_arguments = command_line_arguments
         self.configure()
         self.setup_logging()
@@ -101,8 +104,8 @@ class Application:
         Returns:
             None
         """
-        if self.command_line_arguments.configuration_file:
-            self.configuration_file = self.command_line_arguments.configuration_file
+        if "configuration_file" in self.command_line_arguments:
+            self.configuration_file = self.command_line_arguments["configuration_file"]
         elif "CONFIGURATION_FILE" in os.environ:
             self.configuration_file = os.environ["CONFIGURATION_FILE"]
         else:
@@ -162,17 +165,17 @@ class Application:
         """
         args = self.command_line_arguments
 
-        if args.log_level:
-            self.log_level = getattr(logging, args.log_level.upper(), logging.DEBUG)
-            self.log_level_name = args.log_level.lower()
-        if args.log_directory:
-            self.log_directory = args.log_directory
-        if args.log_file:
-            self.log_file = args.log_file
-        if args.width:
-            self.width = args.width
-        if args.height:
-            self.height = args.height
+        if "log_level" in args and args["log_level"] is not None:
+            self.log_level = getattr(logging, args["log_level"].upper())
+            self.log_level_name = args["log_level"].lower()
+        if "log_directory" in args and args["log_directory"] is not None:
+            self.log_directory = args["log_directory"]
+        if "log_file" in args and args["log_file"] is not None:
+            self.log_file = args["log_file"]
+        if "width" in args and args["width"] is not None:
+            self.width = args["width"]
+        if "height" in args and args["height"] is not None:
+            self.height = args["height"]
 
 
     def set_default_values(self):
