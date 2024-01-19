@@ -1,22 +1,22 @@
 import logging
 import unittest
-from src.SnakeGame.SnakeGame import SnakeGame
+from src.Application import Application
 
 
-class TestSnakeGame(unittest.TestCase):
+class TestApplication(unittest.TestCase):
     def test_process_configuration_file(self):
         # Ensure the process configuration file method can handle a valid configuration file
         kwargs = {"configuration_file": "Tests/res/test_configuration.json"}
-        game = SnakeGame(**kwargs)
+        game = Application(**kwargs)
         self.assertTrue(game.log_level == logging.DEBUG)
 
         # Ensure the process configuration file method can handle an invalid configuration file
         kwargs = {"configuration_file": "Tests/res/invalid_configuration.json"}
-        self.assertRaises(FileNotFoundError, SnakeGame, **kwargs)
+        self.assertRaises(FileNotFoundError, Application, **kwargs)
         
     def test_process_configuration(self):
         # Ensure that the debug argument is set to False by default
-        game = SnakeGame()
+        game = Application()
         game.process_configuration()
         self.assertTrue(game.log_level == logging.ERROR)
 
@@ -46,22 +46,22 @@ class TestSnakeGame(unittest.TestCase):
         self.assertRaises(ValueError, game.process_configuration, **kwargs)
 
     def test_start(self):
-        game = SnakeGame()
+        game = Application()
         game.start()
         self.assertTrue(game.running)
 
     def test_update(self):
-        game = SnakeGame()
+        game = Application()
         game.update()
         # Add assertions to check if the game state has been updated correctly
 
     def test_render(self):
-        game = SnakeGame()
+        game = Application()
         game.render()
         # Add assertions to check if the game graphics have been rendered correctly
 
     def test_quit(self):
-        game = SnakeGame()
+        game = Application()
         game.quit()
         # Add assertions to check if the game has been quit correctly
 

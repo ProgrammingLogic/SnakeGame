@@ -1,1 +1,1 @@
-from .SnakeGame import SnakeGame
+from .Application import Application

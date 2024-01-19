@@ -14,7 +14,7 @@ setup(
     author_email='jstiverson2002@gmail.com',
     entry_points={
         'console_scripts': [
-            'snakegame = src.main:main',
+            'Application = src.main:main',
         ],
     },
 )

@@ -6,17 +6,17 @@ import json
 from pathlib import Path
 
 
-class SnakeGame:
+class Application:
     """
-    SnakeGame class represents a snake game.
+    Application class represents a snake game.
 
     Attributes:
         debug (bool): Indicates whether debug mode is enabled.
         running (bool): Indicates whether the game is running.
 
     Methods:
-        __init__(): Initializes the SnakeGame object.
-        process_arguments(): Processes the arguments passed to the SnakeGame object.
+        __init__(): Initializes the Application object.
+        process_arguments(): Processes the arguments passed to the Application object.
         start(): Starts the game logic.
         setup_pygame(): Sets up the Pygame library for the game.
         game_loop(): The main game loop.
@@ -25,14 +25,14 @@ class SnakeGame:
         update(): Updates the game state.
         process_log_level(): Processes the log level argument.
         setup_logging(): Sets up logging for the game.
-        process_configuration(): Processes the arguments passed to the SnakeGame object.
-        process_configuration_file(): Processes the SnakeGame configuration file.
-        process_snake_game_configuration(): Processes the SnakeGame configuration.
+        process_configuration(): Processes the arguments passed to the Application object.
+        process_configuration_file(): Processes the Application configuration file.
+        process_snake_game_configuration(): Processes the Application configuration.
     """
 
     def __init__(self, *args, **kwargs):
         """
-        Initializes the SnakeGame object.
+        Initializes the Application object.
 
         kwargs:
             configuration_file (str): The path to the configuration file.
@@ -50,7 +50,7 @@ class SnakeGame:
 
     def process_snake_game_configuration(self, *args, **kwargs):
         """
-        Process the SnakeGame configuration.
+        Process the Application configuration.
 
         Returns:
             None
@@ -66,7 +66,7 @@ class SnakeGame:
 
     def process_configuration_file(self, configuration_file):
         """
-        Process the SnakeGame configuration file.
+        Process the Application configuration file.
 
         Args:
             configuration_file (str): The path to the configuration file.
@@ -90,7 +90,7 @@ class SnakeGame:
 
     def process_configuration(self, *args, **kwargs):
         """
-        Process the arguments passed to the SnakeGame object.
+        Process the arguments passed to the Application object.
 
         Args:
             *args: Variable length argument list.
