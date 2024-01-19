@@ -8,6 +8,7 @@ def generate_configuration_file(path, log_level):
     with open(path, 'w') as file:
         json.dump(config, file, indent=4)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate a .json configuration file.')
     parser.add_argument('path', type=str, nargs='?', default='.\snakeGameConfiguration.json', help='Path of the configuration file')

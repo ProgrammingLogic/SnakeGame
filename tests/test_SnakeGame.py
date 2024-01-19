@@ -14,6 +14,7 @@ class TestApplication(unittest.TestCase):
         kwargs = {"configuration_file": "Tests/res/invalid_configuration.json"}
         self.assertRaises(FileNotFoundError, Application, **kwargs)
         
+
     def test_process_configuration(self):
         # Ensure that the debug argument is set to False by default
         game = Application()
@@ -45,20 +46,24 @@ class TestApplication(unittest.TestCase):
         kwargs = {"log_level": "invalid"}
         self.assertRaises(ValueError, game.process_configuration, **kwargs)
 
+
     def test_start(self):
         game = Application()
         game.start()
         self.assertTrue(game.running)
+
 
     def test_update(self):
         game = Application()
         game.update()
         # Add assertions to check if the game state has been updated correctly
 
+
     def test_render(self):
         game = Application()
         game.render()
         # Add assertions to check if the game graphics have been rendered correctly
+
 
     def test_quit(self):
         game = Application()
@@ -68,3 +73,4 @@ class TestApplication(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    

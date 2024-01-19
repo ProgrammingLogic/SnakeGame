@@ -29,7 +29,6 @@ class Application:
         process_configuration_file(): Processes the Application configuration file.
         process_snake_game_configuration(): Processes the Application configuration.
     """
-
     def __init__(self, *args, **kwargs):
         """
         Initializes the Application object.
@@ -48,6 +47,7 @@ class Application:
         self.setup_pygame()
         self.start()
 
+
     def process_snake_game_configuration(self, *args, **kwargs):
         """
         Process the Application configuration.
@@ -63,6 +63,7 @@ class Application:
             self.process_configuration_file(os.environ["configuration_file"])
 
         self.process_configuration(*args, **kwargs)
+
 
     def process_configuration_file(self, configuration_file):
         """
@@ -88,6 +89,7 @@ class Application:
             self.logger.error(f"Configuration file not found: {configuration_file}")
             raise FileNotFoundError(f"Configuration file not found: {configuration_file}")
 
+
     def process_configuration(self, *args, **kwargs):
         """
         Process the arguments passed to the Application object.
@@ -103,6 +105,7 @@ class Application:
             self.process_log_level(kwargs["log_level"])
         else:
             self.log_level = logging.ERROR
+
 
     def process_log_level(self, log_level):
         """
@@ -130,6 +133,7 @@ class Application:
         else:
             raise ValueError(f"Invalid log level: {log_level.lower()}")
 
+
     def setup_logging(self):
         """
         Set up logging for the game.
@@ -152,6 +156,7 @@ class Application:
         # Add the handler to the logger
         self.logger.addHandler(ch)
 
+
     def start(self):
         """
         Starts the game logic.
@@ -162,6 +167,7 @@ class Application:
             None
         """
         self.running = True
+
 
     def setup_pygame(self):
         """
@@ -174,6 +180,7 @@ class Application:
         pygame.init()
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
+
 
     def loop(self):
         """
@@ -190,6 +197,7 @@ class Application:
             # Limit the game to 60 FPS
             self.clock.tick(60)
 
+
     def quit(self):
         """
         Quits the game.
@@ -198,6 +206,7 @@ class Application:
             None
         """
         pygame.quit()
+
 
     def render(self):
         """
@@ -208,6 +217,7 @@ class Application:
         """
         self.screen.fill("purple")
         pygame.display.flip()
+
 
     def update(self):
         """
