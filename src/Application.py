@@ -3,7 +3,6 @@ import logging
 import os
 import json
 
-from pathlib import Path
 from argparse import Namespace
  
 # TODO
@@ -18,6 +17,8 @@ class Application:
             running (bool): Indicates whether the game is running.
             screen (pygame.Surface): The screen to be used for the game.
             clock (pygame.time.Clock): The clock to be used for the game.
+            application_dir (str): The path to the directory containing the Application.
+            resources_dir (str): The path to the directory containing the game resources.
 
         Options:
             command_line_arguments (argparse.Namespace): The command line arguments passed to the Application.
@@ -61,6 +62,8 @@ class Application:
 
 
     # Instance variables
+    application_dir = None
+    resources_dir = None
     logger = None
     running = False
     screen = None
@@ -104,10 +107,19 @@ class Application:
         Returns:
             None
         """
-        if "configuration_file" in self.command_line_arguments:
+        current_dir = os.path.dirname(__file__)
+        self.application_dir = os.path.abspath(current_dir + "/..")
+        self.resources_dir = os.path.join(self.application_dir, "res")
+
+        # By default, use the settings.json file in the resources directory
+        # If the user specifies a configuration file (either through the command line or environmental variables),
+        # then use that configuration file instead.
+        if self.command_line_arguments.get("configuration_file", None) is not None:
             self.configuration_file = self.command_line_arguments["configuration_file"]
         elif "CONFIGURATION_FILE" in os.environ:
             self.configuration_file = os.environ["CONFIGURATION_FILE"]
+        elif os.path.exists(os.path.join(self.resources_dir, "settings.json")):
+            self.configuration_file = os.path.join(self.resources_dir, "settings.json")
         else:
             self.configuration_file = None
 
@@ -128,8 +140,8 @@ class Application:
         if self.configuration_file:
             with open(self.configuration_file) as f:
                 config = json.load(f)
-                self.log_level = getattr(logging, config.get("log_level", self.log_level_name.upper()), logging.DEBUG)
-                self.log_level_name = config.get("log_level_name", self.log_level_name.lower())
+                self.log_level_name = config.get("log_level_name", self.log_level_name.upper())
+                self.log_level = getattr(logging, self.log_level_name)
                 self.log_directory = config.get("logging_directory", self.log_directory)
                 self.log_file = config.get("log_file", self.log_file)
                 self.width = config.get("width", self.width)
@@ -230,7 +242,7 @@ class Application:
             os.makedirs(self.log_directory)
 
         if not os.path.exists(f"""{self.log_directory}/application.log"""):
-            Path(f"""{self.log_directory}/application.log""").touch()
+            os.path(f"""{self.log_directory}/application.log""").touch()
 
         file_handler = logging.FileHandler(f"""{self.log_directory}/{self.log_file}""")
         file_handler.setFormatter(formatter)
