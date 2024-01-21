@@ -137,15 +137,17 @@ class Application:
         Returns:
             None
         """
+        # If any of these options are invalid, the application throws an exception. 
+        # Do we want this? Or do we want to just ignore the invalid options?
         if self.configuration_file:
             with open(self.configuration_file) as f:
                 config = json.load(f)
-                self.log_level_name = config.get("log_level_name", self.log_level_name.upper())
-                self.log_level = getattr(logging, self.log_level_name)
-                self.log_directory = config.get("logging_directory", self.log_directory)
-                self.log_file = config.get("log_file", self.log_file)
-                self.width = config.get("width", self.width)
-                self.height = config.get("height", self.height)
+                self.log_level_name = config.get("log_level", None)
+                self.log_level = getattr(logging, self.log_level_name.upper())
+                self.log_directory = config.get("logging_directory", None)
+                self.log_file = config.get("log_file", None)
+                self.width = config.get("width", None)
+                self.height = config.get("height", None)
 
 
     def load_environmental_variables(self):
@@ -197,9 +199,8 @@ class Application:
         Returns:
             None
         """
-        if self.log_level is None:
+        if self.log_level is None and self.log_level_name is None:
             self.log_level = getattr(logging, "DEBUG")
-        if self.log_level_name is None:
             self.log_level_name = "debug"
         if self.log_directory is None:
             self.log_directory = "logs"

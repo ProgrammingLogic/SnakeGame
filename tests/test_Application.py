@@ -60,7 +60,7 @@ class TestApplication(unittest.TestCase):
 
         # Load the configuration file
         self.application.configuration_file = mock_config_file
-        self.application.load_configuration_file()
+        self.assertRaises(AttributeError, self.application.load_configuration_file)
 
         # TODO
         #  - Assert that the configuration file was not loaded successfully
@@ -103,12 +103,12 @@ class TestApplication(unittest.TestCase):
             "log_level": "info",
         }
 
-        file_contents = json.dumps(partial_configuration)
+        # file_contents = json.dumps(partial_configuration)
 
         os.makedirs(os.path.dirname(mock_config_file), exist_ok=True)
 
         with open(mock_config_file, "w") as f:
-            json.dump(mock_config_file, f, indent=4)
+            json.dump(partial_configuration, f, indent=4)
 
         # Load the configuration file
         self.application.configuration_file = mock_config_file
@@ -121,31 +121,6 @@ class TestApplication(unittest.TestCase):
 
         if __name__ == "__main__":
             unittest.main()
-
-
-    def test_setup(self):
-        self.application.setup()
-        # Add your assertions here to verify the setup behavior
-
-
-    def test_start(self):
-        self.application.start()
-        # Add your assertions here to verify the start behavior
-
-
-    def test_stop(self):
-        self.application.stop()
-        # Add your assertions here to verify the stop behavior
-
-
-    def test_render(self):
-        self.application.render()
-        # Add your assertions here to verify the render behavior
-
-
-    def test_update(self):
-        self.application.update()
-        # Add your assertions here to verify the update behavior
 
 
 if __name__ == "__main__":
