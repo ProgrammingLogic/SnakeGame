@@ -122,6 +122,18 @@ class TestApplication(unittest.TestCase):
         if __name__ == "__main__":
             unittest.main()
 
+    def test_setup_pygame(self):
+        """
+        Test that the pygame module is setup correctly.
+        """
+        self.application.width = 800
+        self.application.height = 600
+        self.application.setup_pygame()
+
+        self.assertEqual(self.application.screen.get_width(), 800)
+        self.assertEqual(self.application.screen.get_height(), 600)
+        self.assertEqual(pygame.display.get_caption(), ("Snake Game", "Snake Game"))
+
 
 if __name__ == "__main__":
     unittest.main()

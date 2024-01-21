@@ -220,6 +220,7 @@ class Application:
             None
         """
         pygame.init()
+        pygame.display.set_caption("Snake Game")
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
 
