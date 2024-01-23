@@ -1,12 +1,12 @@
-import pygame
 import logging
 import os
 import json
 
+import pygame as pg
+
 from argparse import Namespace
- 
-# TODO
-# Set pygame caption
+
+from Snake import Snake
 class Application:
     """
     Application class represents a snake game.
@@ -15,8 +15,8 @@ class Application:
         Instance variables:
             logger (logging.Logger): The logger object for the Application class.
             running (bool): Indicates whether the game is running.
-            screen (pygame.Surface): The screen to be used for the game.
-            clock (pygame.time.Clock): The clock to be used for the game.
+            screen (pg.Surface): The screen to be used for the game.
+            clock (pg.time.Clock): The clock to be used for the game.
             application_dir (str): The path to the directory containing the Application.
             resources_dir (str): The path to the directory containing the game resources.
 
@@ -219,10 +219,31 @@ class Application:
         Returns:
             None
         """
-        pygame.init()
-        pygame.display.set_caption("Snake Game")
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        self.clock = pygame.time.Clock()
+        pg.init()
+        
+
+        # Setup game window
+        self.screen = pg.display.set_mode((self.width, self.height))
+        pg.display.set_caption("Snake Game")
+
+
+        # Setup background
+        self.background = pg.Surface(self.screen.get_size())
+        self.background = self.background.convert()
+        self.background.fill("black")
+
+
+        # Load background while game is loading
+        self.background.blit(self.background, (0, 0))
+        pg.display.flip()
+
+
+        self.clock = pg.time.Clock()
+        self.all_sprites = pg.sprite.RenderPlain()
+        
+        # Setup the sprites
+        self.snake = Snake(self, self.screen, (self.width / 2, self.height / 2))
+        self.all_sprites.add(self.snake)
 
 
     def setup_logging(self):
@@ -282,7 +303,7 @@ class Application:
         Returns:
             None
         """
-        pygame.quit()
+        pg.quit()
 
 
     # Game loop methods
@@ -295,22 +316,22 @@ class Application:
         """
         # Game loop
         while self.running:
-            self.update()
-            self.render()
-
-            # Limit the game to 60 FPS
+            # Update
             self.clock.tick(60)
 
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.logger.info("pygame.QUIT event detected.")
+                    self.running = False
+            
+            self.all_sprites.update()
 
-    def render(self):
-        """
-        Renders the game graphics.
 
-        Returns:
-            None
-        """
-        self.screen.fill("purple")
-        pygame.display.flip()
+            # Render
+            # self.screen.fill("black")
+            self.screen.blit(self.background, (0, 0))
+            self.all_sprites.draw(self.screen)
+            pg.display.flip()
 
 
     def update(self):
@@ -320,7 +341,4 @@ class Application:
         Returns:
             None
         """
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.logger.info("pygame.QUIT event detected.")
-                self.running = False
+        pass
