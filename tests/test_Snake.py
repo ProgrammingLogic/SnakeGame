@@ -24,8 +24,8 @@ class TestSnake(unittest.TestCase):
 
     def test_initialization(self):
         self.assertEqual(self.snake.application, self.application)
-        self.assertEqual(self.snake.x, self.application.screen.get_width() / 2)
-        self.assertEqual(self.snake.y, self.application.screen.get_height() / 2)
+        self.assertEqual(self.snake.position[0], self.application.screen.get_width() / 2) # Snake.position.x
+        self.assertEqual(self.snake.position[1], self.application.screen.get_height() / 2) # Snake.position.y
 
 
     def test_update(self):
